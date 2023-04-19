@@ -35,3 +35,6 @@
 
 vue后台代码在后端项目中
 
+## 演示图
+
+请 [点击此处](https://oddfar.github.io/campus-doc/campus-example/#%E6%BC%94%E7%A4%BA%E5%9B%BE) 访问文档查看

@@ -206,7 +206,14 @@ export default {
     /** 查询下拉树结构 */
     getTreeselect() {
       touristApi.getCategoryList().then((response) => {
-        this.categoryOptions = this.handleTree(response.data, "categoryId");
+        let lists = response.data;
+
+        for (let i = 0; i < lists.length; i++) {
+          if (lists[i].type == "Y") {
+            lists.splice(i, 1);
+          }
+        }
+        this.categoryOptions = this.handleTree(lists, "categoryId");
       });
     },
     //文件移除
@@ -270,7 +277,7 @@ export default {
         }
 
         if (size > 5) {
-          this.fileList.splice(fileLength - 1, 1);
+          this.fileList.splice(this.fileList.length - 1, 1);
           this.$message.warning("上传的图片大小不能超过 5MB!");
         }
       } else {
@@ -279,7 +286,7 @@ export default {
           this.fileList.splice(this.fileList.length - 1, 1);
         }
         if (size > 20) {
-          this.fileList.splice(fileLength - 1, 1);
+          this.fileList.splice(this.fileList.length - 1, 1);
           this.$message.warning("上传的视频大小不能超过 20MB!");
         }
       }
