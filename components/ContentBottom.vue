@@ -7,10 +7,7 @@
       <!-- 分享链接 -->
       <div class="woo-box-item-flex">
         <div
-          class="
-            content-bottom-hover
-            woo-box-flex woo-box-alignCenter woo-box-justifyCenter
-          "
+          class="content-bottom-hover woo-box-flex woo-box-alignCenter woo-box-justifyCenter"
           @click="copys($event, contentObj.contentId)"
         >
           <div class="woo-pop-wrap">
@@ -22,10 +19,7 @@
       <!-- 评论 -->
       <div class="woo-box-item-flex">
         <div
-          class="
-            content-bottom-hover
-            woo-box-flex woo-box-alignCenter woo-box-justifyCenter
-          "
+          class="content-bottom-hover woo-box-flex woo-box-alignCenter woo-box-justifyCenter"
           @click="clickComment()"
         >
           <div class="woo-pop-wrap">
@@ -38,10 +32,7 @@
       <!-- 赞 -->
       <div class="woo-box-item-flex">
         <div
-          class="
-            content-bottom-hover
-            woo-box-flex woo-box-alignCenter woo-box-justifyCenter
-          "
+          class="content-bottom-hover woo-box-flex woo-box-alignCenter woo-box-justifyCenter"
           @click="setZan(contentObj.contentId)"
         >
           <div class="woo-pop-wrap">
@@ -59,8 +50,8 @@
 </template>
 
 <script>
-const dzNotImage = require('~/assets/images/dz.png')
-const dzImage = require('~/assets/images/dz1.png')
+const dzNotImage = require("~/assets/images/dz.png");
+const dzImage = require("~/assets/images/dz1.png");
 
 import operateApi from "@/api/operate";
 
@@ -83,18 +74,27 @@ export default {
       zanImg: "",
       //是否显示评论
       showComment: false,
-      isZanBoo:false,
+      isZanBoo: false,
     };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    this.isZanBoo = this.zanBoolean;
-    this.isZan();
-    if (this.$route.name == 'c-contentId') {
+    if (this.$route.name == "c-contentId") {
       this.showComment = true;
     }
+  },
+  watch: {
+    zanBoolean: {
+      handler(newVal, oldVal) {
+        // console.log(newVal, oldVal)
+        this.isZanBoo = this.zanBoolean;
+        this.isZan();
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   //方法集合
   methods: {

@@ -6,7 +6,6 @@
         <el-col :xs="4" :sm="6">
           <div style="text-align: right; margin-top: 10px">
             <router-link :to="{ name: 'index' }">
-              <!-- <img width="110" height="110" src="~assets/images/logo.png" /> -->
               <svg
                 t="1638268177277"
                 class="icon"

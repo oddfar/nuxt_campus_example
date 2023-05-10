@@ -49,4 +49,5 @@ export default {
             data: contentSet
         })
     },
+    
 }

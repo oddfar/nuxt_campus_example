@@ -57,5 +57,27 @@ export default {
         })
     },
 
+    //给邮箱发送修改密码的验证码
+    sendResetPwdCode(data) {
+        return request({
+            url: '/campus/pwd-code',
+            headers: {
+                isToken: false
+            },
+            method: 'post',
+            data: data
+        })
+    },
+    //修改密码
+    changePwd(data) {
+        return request({
+            url: '/campus/changePwd',
+            headers: {
+                isToken: false
+            },
+            method: 'post',
+            data: data
+        })
+    },
 
 }

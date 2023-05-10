@@ -73,7 +73,6 @@ export default {
       //是否点赞
       zanBoolean: false,
       contentWidth: "width:605px;",
-      contentId: null,
     };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -83,13 +82,16 @@ export default {
       this.contentWidth = "";
     }
     this.isZan(this.contentObj.contentId);
-    // this.contentId = this.contentObj.contentId;
   },
   watch: {
-    //监听值变化：
-    // contentId: function () {
-    //   this.isZan(this.contentId);
-    // },
+    contentObj: {
+      handler(newVal, oldVal) {
+        // console.log(newVal);
+        this.isZan(newVal.contentId);
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},

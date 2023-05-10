@@ -89,7 +89,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
-      <span>Copyright © 2018-2022 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2023 oddfar.com All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -234,11 +234,6 @@ export default {
   height: 38px;
 }
 
-.register-tip {
-  font-size: 13px;
-  text-align: center;
-  color: #bfbfbf;
-}
 .register-code {
   width: 33%;
   height: 38px;

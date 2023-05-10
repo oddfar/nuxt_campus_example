@@ -3,7 +3,6 @@
     <div class="grid-content bg-purple-dark">
       <div class="login">
         <!--账号登录 #start -->
-
         <el-form
           ref="loginForm"
           :model="loginForm"
@@ -60,7 +59,7 @@
           </el-form-item>
           <el-form-item>
             <router-link
-              :to="{ path: 'Resetpassword' }"
+              :to="{ path: 'resetPwd' }"
               style="float: left"
               class="router-link-active"
             >

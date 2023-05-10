@@ -9,9 +9,9 @@
     ></CampusMenu>
 
     <div class="campus-main">
-      <div class="woo-box-flex">
+      <div class="woo-box-flex" :style="{ 'min-height': mainMinHeight + 'px' }">
         <!-- 消息盒子 -->
-        <div class="content-t"  v-loading="loading">
+        <div class="content-t" v-loading="loading">
           <Content
             v-for="(item, key) in contentObj"
             :key="key"
@@ -66,6 +66,8 @@ export default {
         pageNum: 1,
         categoryId: null,
       },
+      //最低高度
+      mainMinHeight: "",
       //是否加载
       loading: true,
       total: 0,
@@ -75,18 +77,17 @@ export default {
 
   //创建的时候自动调用
   created() {
-
+    
     this.getAllCategorys();
     this.getContent(this.contentVo);
   },
   //创建后
   mounted() {
+    this.mainMinHeight = document.documentElement.clientHeight - 45;
     this.contentVo.pageNum = 1;
     // this.contentVo.categoryId = 0;
-
   },
   methods: {
-
     //点击菜单后（子组件传递数据）
     selectCatrgory(data) {
       this.contentVo.categoryId = data;
