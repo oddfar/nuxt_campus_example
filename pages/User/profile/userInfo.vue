@@ -104,7 +104,7 @@ export default {
       });
     },
     close() {
-      this.$tab.closePage();
+      this.$router.push("/");   //vue-router内置方法跳转
     },
     openDialog() {
       this.dialogVisible = true;
