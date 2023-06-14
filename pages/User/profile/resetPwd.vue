@@ -55,13 +55,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           userInfoApi.updateUserPwd(this.user.oldPassword, this.user.newPassword).then(response => {
-            this.$modal.msgSuccess("修改成功");
+            this.$message.success("修改成功");   //调用Element库中的内置对象方法弹出成功的提示框
           });
         }
       });
     },
     close() {
-      this.$tab.closePage();
+      this.$router.push("/");   //vue-router内置方法跳转
     }
   }
 };

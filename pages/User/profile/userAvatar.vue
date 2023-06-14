@@ -160,7 +160,7 @@ export default {
     // 上传预处理
     beforeUpload(file) {
       if (file.type.indexOf("image/") == -1) {
-        this.$modal.msgError(
+        this.$message.error(
           "文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。"
         );
       } else {
@@ -180,7 +180,7 @@ export default {
           this.open = false;
           this.options.img = this.handleCampusUrl(response.imgUrl);
           // store.commit('SET_AVATAR', this.options.img);
-          this.$modal.msgSuccess("修改成功");
+          this.$message.success("修改成功");   //调用Element库中的内置对象方法弹出成功的提示框
           this.visible = false;
           window.location.reload();
         });
