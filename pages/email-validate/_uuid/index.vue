@@ -1,5 +1,5 @@
 <template>
-  <div class="main-full-middle" v-loading="loading">
+  <div class="main-full-middle">
     <div style="width: 642px">
       <div v-if="!loading">
         <el-result
@@ -9,9 +9,7 @@
           subTitle="将在3秒后跳转到首页"
         >
           <template slot="extra">
-            <el-button type="primary" size="medium" @click="goHome()"
-              >首页</el-button
-            >
+            <el-button type="primary" size="medium" @click="handlePush">首页</el-button>
           </template>
         </el-result>
 
@@ -22,7 +20,7 @@
           subTitle="请重新绑定，将在3秒后跳转到首页"
         >
           <template slot="extra">
-            <el-button type="primary" size="medium">返回</el-button>
+            <el-button type="primary" size="medium" @click="handlePush">返回</el-button>
           </template>
         </el-result>
       </div>
@@ -40,16 +38,35 @@ export default {
       uuid: "",
       loading: true,
       success: "",
+      //定时器
+      timer:null,
+      //3秒后执行
+      count:3,
     };
   },
 
-  //创建的时候自动调用
+  //组件未挂载到DOM，对数据进行初始化
   created() {
     this.uuid = this.$route.params.uuid;
-    this.email(this.uuid);
   },
-  //创建后
-  mounted() {},
+  //DOM已挂载，发送验证异步请求
+  mounted() {
+
+    this.email(this.uuid);
+  
+  },
+  //监听组件渲染变化，促发定时任务
+  updated(){
+    //启动定时器，每隔 1000 毫秒执行一次回调函数
+    this.timer = setInterval(() => {
+      this.count--;
+      if (this.count <= 0) {
+        //执行跳转操作并清除定时器
+        this.$router.push("/");
+        clearInterval(this.timer);
+      }
+    }, 1000); 
+  },
   methods: {
     //获取所有内容
     email(uuid) {
@@ -59,20 +76,16 @@ export default {
           this.success = response.data;
         })
         .catch((response) => {});
-      this.goHome();
-    },
-    goHome() {
-      let count = 3; //赋值多少秒
-      var times = setInterval(() => {
-        count--; //递减
-        if (count <= 0) {
-          // <=0
-          this.$router.push({ path: "/" });
-          clearInterval(times);
-        }
-      }, 1000); //1000毫秒后执行
-    },
-  },
+      }, 
+
+    //立即跳转并清除定时器
+    handlePush() {
+      this.$router.push("/");
+      clearInterval(this.timer);
+    }
+
+},
+    
 };
 </script>
 
