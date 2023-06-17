@@ -22,7 +22,7 @@
         :height="videoHeight"
         aspectRatio="16:9"
         :fluid="true"
-        preload="none"
+        preload="metadata"
         :muted="false"
         :controls="true"
       >
