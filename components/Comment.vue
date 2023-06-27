@@ -205,6 +205,7 @@
     <el-dialog title="回复列表" :visible.sync="dialogChildren" width="600px">
       <div>
         <CommentChild
+          v-if="dialogChildren"
           :commentObj="commentOneLevelObj"
           :contentObj="contentObj"
         ></CommentChild>
