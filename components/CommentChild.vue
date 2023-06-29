@@ -36,7 +36,8 @@
     <div v-if="total == 0"></div>
 
     <!-- 分页 -->
-    <div class="fenye" v-if="this.$route.name == 'c-contentId'">
+    <!-- <div class="fenye" v-if="this.$route.name == 'c-contentId'"> -->
+    <div class="fenye">
       <el-pagination
         :hide-on-single-page="true"
         background
@@ -48,7 +49,6 @@
       >
       </el-pagination>
     </div>
-
   </div>
 </template>
 
@@ -79,7 +79,6 @@ export default {
       //****分页 */
       total: 0, //一级评论数量
       currentPage: 1,
-
     };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -112,7 +111,6 @@ export default {
     commentSuccess(response) {
       this.handleCurrentChange(1);
     },
-
   },
 };
 </script>

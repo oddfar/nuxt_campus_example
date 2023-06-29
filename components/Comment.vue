@@ -87,6 +87,7 @@
               <div class="woo-box-flex" style="margin-right: 20px">
                 <div
                   class="comment-iconbed woo-box-flex woo-box-alignCenter woo-box-justifyCenter"
+                  @click="delOwnComment(item.commentId)"
                 >
                   <svg-icon
                     class="comment-tool-iconbed"
@@ -123,17 +124,11 @@
             <!-- 更多评论的数量 -->
             <div
               class="comment-more-item"
-              v-if="item.childrenCount > 1"
+              v-if="item.childrenCount > 0"
               @click="showChildren(item)"
             >
               <div style="color: #eb7350; text-align: left">
-                <span
-                  >共{{
-                    item.children == undefined
-                      ? item.childrenCount
-                      : item.childrenCount
-                  }}条回复</span
-                >
+                <span>共{{ item.childrenCount }}条回复</span>
               </div>
             </div>
           </div>
@@ -280,6 +275,14 @@ export default {
       this.commentQuery.pageNum = currentPage;
       touristApi.getOneLevelComment(this.commentQuery).then((response) => {
         this.commentOneLevelList = this.handleTree(response.rows, "commentId");
+        //处理数据
+        for (let i = 0; i < this.commentOneLevelList.length; i++) {
+          if (this.commentOneLevelList[i].children !== undefined) {
+            this.commentOneLevelList[i].childrenCount--;
+          }
+          Vue.set(this.commentOneLevelList, i, this.commentOneLevelList[i]);
+        }
+
         this.commentTotal = parseInt(response.allTotal);
         this.total = parseInt(response.total);
       });
@@ -305,6 +308,32 @@ export default {
         this.toCommentQuery.coContent = "";
         this.getCommentList(1);
       });
+    },
+    //删除自己的评论
+    delOwnComment(commentId) {
+      this.$confirm("是否删除评论？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          operateApi.delOwnComment(commentId).then((response) => {
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+            //删除集合的元素
+            this.commentOneLevelList = this.commentOneLevelList.filter(
+              (item) => item.commentId !== commentId
+            );
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     //添加子评论
     openCommentChild(commentId) {

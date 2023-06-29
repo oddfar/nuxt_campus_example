@@ -1,5 +1,5 @@
 <template>
-  <div class="commen-u" style="margin-top: 5px">
+  <div class="commen-u" style="margin-top: 5px" v-if="isDel == 0">
     <!-- 评论 -->
     <div class="comment-list">
       <!-- 评论列表 -->
@@ -14,9 +14,12 @@
           <!-- 昵称、评论内容、时间 -->
           <div class="woo-box-item-flex" style="margin: -2px 0 0 10px">
             <div>
-              <span class="comment-nick"> {{ commentObj.userNickName }}
-                <span v-if="commentObj.toUserNickName!=null">
-                  <i class="el-icon-caret-right" style="color:black"></i> {{ commentObj.toUserNickName }}</span>
+              <span class="comment-nick">
+                {{ commentObj.userNickName }}
+                <span v-if="commentObj.toUserNickName != null">
+                  <i class="el-icon-caret-right" style="color: black"></i>
+                  {{ commentObj.toUserNickName }}</span
+                >
               </span>
               <!-- 是否是作者 -->
               <span
@@ -32,10 +35,7 @@
             </div>
 
             <div
-              class="
-                comment-info
-                woo-box-flex woo-box-alignCenter woo-box-justifyBetween
-              "
+              class="comment-info woo-box-flex woo-box-alignCenter woo-box-justifyBetween"
             >
               <div>
                 <span> {{ handelTimeFormat(commentObj.createTime) }} </span>
@@ -43,12 +43,9 @@
               </div>
               <div class="woo-box-flex" style="margin-right: 20px">
                 <div
-                  class="
-                    comment-iconbed
-                    woo-box-flex woo-box-alignCenter woo-box-justifyCenter
-                  "
+                  class="comment-iconbed woo-box-flex woo-box-alignCenter woo-box-justifyCenter"
+                  @click="delOwnComment(commentObj.commentId)"
                 >
-                  <!-- <i class="woo-font woo-font--comment" title="评论"></i> -->
                   <svg-icon
                     class="comment-tool-iconbed"
                     v-if="commentObj.userId == loginUserId"
@@ -57,10 +54,7 @@
                 </div>
 
                 <div
-                  class="
-                    comment-iconbed
-                    woo-box-flex woo-box-alignCenter woo-box-justifyCenter
-                  "
+                  class="comment-iconbed woo-box-flex woo-box-alignCenter woo-box-justifyCenter"
                   @click="openCommentChild(commentObj.commentId)"
                 >
                   <svg-icon class="comment-tool-iconbed" icon-class="comment" />
@@ -73,12 +67,7 @@
     </div>
 
     <!-- 评论弹出框 -->
-    <el-dialog
-      title="回复"
-      :visible.sync="dialog"
-      width="600px"
-      append-to-body
-    >
+    <el-dialog title="回复" :visible.sync="dialog" width="600px" append-to-body>
       <div class="woo-box-item-flex" style="align-self: center">
         <el-input
           type="textarea"
@@ -127,6 +116,8 @@ export default {
       dialog: false,
       dialogText: "",
       dialogCommentId: "",
+      //删除判断，1，为删除
+      isDel: 0,
     };
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -137,6 +128,12 @@ export default {
       this.loginUserId = this.globalVariable.userInfoGlobal.userId;
     }
   },
+  watch: {
+    commentObj: {
+      immediate: true,
+      handler(newValue, oldValue) {},
+    },
+  },
   //方法集合
   methods: {
     //添加子评论
@@ -144,6 +141,30 @@ export default {
       this.dialog = true;
       this.dialogCommentId = commentId;
     },
+    //删除自己的评论
+    delOwnComment(commentId) {
+      this.$confirm("是否删除评论？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          operateApi.delOwnComment(commentId).then((response) => {
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+            this.isDel = 1;
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    //添加评论
     addCommentChild() {
       this.toCommentQuery.commentId = this.dialogCommentId;
       this.toCommentQuery.contentId = null;

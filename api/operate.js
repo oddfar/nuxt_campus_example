@@ -3,12 +3,12 @@ import request from '@/utils/request'
 const api_name = `/api/operate`
 
 export default {
-    // 删除发表的评论
-    deletePin(coid) {
+     // 删除发表的评论
+     delOwnComment(commentId) {
         return request({
-            url: `${api_name}/delComment`,
+            url: `campus/delOwnComment`,
             method: `post`,
-            data: coid
+            params: {commentId}
         })
     },
     // 删除发布的信息
